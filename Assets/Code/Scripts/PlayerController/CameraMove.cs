@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
-using System.Threading;
-using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Code.Scripts.PlayerController
 {
@@ -21,21 +20,32 @@ namespace Code.Scripts.PlayerController
     {
         [SerializeField] private float sensivityDelta;
         [SerializeField] private bool leftButton;
-        [SerializeField] private CinemachineVirtualCamera camera;
+        [SerializeField] private Camera camera;
         [SerializeField] private LimitsSizeCamera limits;
         [SerializeField] private float scrollForce;
-        
+        [SerializeField] private TextMeshProUGUI text;
+
+        private Touchscreen touchscreen;
+        private float _startDist;
+        private float _oldDist;
+        private bool _scrollActive;
 
         private void Start()
         {
             Input.controller.Player.LeftClick.performed += context => PressLeftClickDown(context);
             Input.controller.Player.LeftClick.canceled += context => PressLeftClickDown(context);
             Input.controller.Player.Scroll.performed += context => Scroll(context);
+#if PLATFORM_ANDROID
+            touchscreen = Touchscreen.current;
+#endif
         }
 
         private void PressLeftClickDown(InputAction.CallbackContext context)
         {
+            if(touchscreen != null) return;
             leftButton = context.action.IsPressed();
+            if(_scrollActive) return;
+
             if (leftButton)
             {
                 StartCoroutine(MoveDelta());
@@ -46,15 +56,16 @@ namespace Code.Scripts.PlayerController
         {
             while (leftButton)
             {
-                Vector2 delta = -Input.button.Delta.ReadValue<Vector2>()* sensivityDelta*(camera.m_Lens.OrthographicSize/limits.maxSize)/10;
+                Vector2 delta = -Input.button.Delta.ReadValue<Vector2>()
+                    * sensivityDelta*(camera.orthographicSize/limits.maxSize)/10;
                 transform.position += new Vector3(delta.x, 0, delta.y);
                 yield return new WaitForFixedUpdate();
             }
         }
-        
+
         private void Scroll(InputAction.CallbackContext context)
         {
-            float size = camera.m_Lens.OrthographicSize;
+            float size = camera.orthographicSize;
             
             if (context.ReadValue<float>() > 0)
             {
@@ -67,8 +78,66 @@ namespace Code.Scripts.PlayerController
             }
 
             size = Mathf.Clamp(size, limits.minSize, limits.maxSize);
-            camera.m_Lens.OrthographicSize = size;
+            camera.orthographicSize = size;
         }
 
+
+#if PLATFORM_ANDROID
+        private void FixedUpdate()
+        {
+            if(touchscreen==null) return;
+            string str = touchscreen.touches[0].isInProgress + " : " + touchscreen.touches[1].isInProgress + "\n";
+            text.SetText(str);
+            str += _scrollActive+"\n";
+            text.SetText(str);
+            if (!touchscreen.touches[0].isInProgress || !touchscreen.touches[1].isInProgress)
+            {
+                str += "Reset\n";
+                text.SetText(str);
+                _startDist = 0;
+                MoveTouch();
+                return;
+            }
+            Vector2 touch_0 = touchscreen.touches[0].position.ReadValue();
+            Vector2 touch_1 = touchscreen.touches[1].position.ReadValue();
+            if (_startDist == 0)
+            {
+                _startDist = Vector2.Distance(touch_0, touch_1);
+                _oldDist = 0;
+            }
+            float dist = Vector2.Distance(touch_0, touch_1) - _startDist - _oldDist;
+            dist = dist / 100 * scrollForce;
+            str += "DIST: " +dist + "\n";
+            text.SetText(str);
+            float size = camera.orthographicSize - dist;
+            size = Mathf.Clamp(size, limits.minSize, limits.maxSize);
+            camera.orthographicSize = size;
+            _oldDist = Vector2.Distance(touch_0, touch_1)- _startDist;
+        }
+
+        private void MoveTouch()
+        {
+            TouchControl touch = GetActiveTouch();
+            if(touch == null) return;
+            Vector2 delta = -touch.delta.value * sensivityDelta*(camera.orthographicSize/limits.maxSize)/10;
+            transform.position += new Vector3(delta.x, 0, delta.y);
+        }
+
+
+        private TouchControl GetActiveTouch()
+        {
+            print("test");
+            foreach (var touch in touchscreen.touches)
+            {
+                if (touch.isInProgress)
+                {
+                    return touch;
+                }
+            }
+
+            return null;
+        }
+#endif
     }
+
 }

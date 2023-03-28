@@ -77,6 +77,17 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""e008754a-998f-4b0a-aec6-2776acc35222"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Phone"",
+                    ""action"": ""Delta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""WASD"",
                     ""id"": ""bbe2a89a-4cc0-498e-a22c-72afe2fd09b2"",
                     ""path"": ""2DVector"",
@@ -143,6 +154,17 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""fd018897-15a0-4618-8c9e-c371b5284732"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Phone"",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""1D Axis"",
                     ""id"": ""e2b363b0-4a44-48c0-964d-708c61de1b89"",
                     ""path"": ""1DAxis"",
@@ -182,6 +204,11 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         {
             ""name"": ""Main"",
             ""bindingGroup"": ""Main"",
+            ""devices"": []
+        },
+        {
+            ""name"": ""Phone"",
+            ""bindingGroup"": ""Phone"",
             ""devices"": []
         }
     ]
@@ -326,6 +353,15 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         {
             if (m_MainSchemeIndex == -1) m_MainSchemeIndex = asset.FindControlSchemeIndex("Main");
             return asset.controlSchemes[m_MainSchemeIndex];
+        }
+    }
+    private int m_PhoneSchemeIndex = -1;
+    public InputControlScheme PhoneScheme
+    {
+        get
+        {
+            if (m_PhoneSchemeIndex == -1) m_PhoneSchemeIndex = asset.FindControlSchemeIndex("Phone");
+            return asset.controlSchemes[m_PhoneSchemeIndex];
         }
     }
     public interface IPlayerActions
