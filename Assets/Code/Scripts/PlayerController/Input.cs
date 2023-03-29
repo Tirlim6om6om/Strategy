@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Code.Scripts.PlayerController
 {
@@ -21,6 +23,19 @@ namespace Code.Scripts.PlayerController
         private void OnDisable()
         {
             controller.Disable();
+        }
+        
+        public static TouchControl GetActiveTouch()
+        {
+            print("test");
+            foreach (var touch in Touchscreen.current.touches)
+            {
+                if (touch.isInProgress)
+                {
+                    return touch;
+                }
+            }
+            return null;
         }
     }
 }

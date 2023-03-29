@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Pos",
+                    "type": "Value",
+                    "id": "630a2ae7-5958-4233-ab88-2bf496ef750a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -133,11 +142,11 @@
                 },
                 {
                     "name": "",
-                    "id": "fd018897-15a0-4618-8c9e-c371b5284732",
-                    "path": "<Touchscreen>/Press",
+                    "id": "fe0fb142-a679-4f11-94e2-28c4f6ff876a",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Phone",
+                    "groups": "",
                     "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -174,6 +183,28 @@
                     "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "cb529692-a29a-4ad3-9f83-191fbce95fc4",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Main",
+                    "action": "Pos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05ce4dd4-010e-4770-a735-a4c3128b887b",
+                    "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Phone",
+                    "action": "Pos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

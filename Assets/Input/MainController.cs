@@ -62,6 +62,15 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pos"",
+                    ""type"": ""Value"",
+                    ""id"": ""630a2ae7-5958-4233-ab88-2bf496ef750a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -155,11 +164,11 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fd018897-15a0-4618-8c9e-c371b5284732"",
-                    ""path"": ""<Touchscreen>/Press"",
+                    ""id"": ""fe0fb142-a679-4f11-94e2-28c4f6ff876a"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Phone"",
+                    ""groups"": """",
                     ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -196,6 +205,28 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb529692-a29a-4ad3-9f83-191fbce95fc4"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Main"",
+                    ""action"": ""Pos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05ce4dd4-010e-4770-a735-a4c3128b887b"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Phone"",
+                    ""action"": ""Pos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +250,7 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
         m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
+        m_Player_Pos = m_Player.FindAction("Pos", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -284,6 +316,7 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_LeftClick;
     private readonly InputAction m_Player_Scroll;
+    private readonly InputAction m_Player_Pos;
     public struct PlayerActions
     {
         private @MainController m_Wrapper;
@@ -292,6 +325,7 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
         public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
+        public InputAction @Pos => m_Wrapper.m_Player_Pos;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -313,6 +347,9 @@ public partial class @MainController: IInputActionCollection2, IDisposable
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
+            @Pos.started += instance.OnPos;
+            @Pos.performed += instance.OnPos;
+            @Pos.canceled += instance.OnPos;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -329,6 +366,9 @@ public partial class @MainController: IInputActionCollection2, IDisposable
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
+            @Pos.started -= instance.OnPos;
+            @Pos.performed -= instance.OnPos;
+            @Pos.canceled -= instance.OnPos;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -370,5 +410,6 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
+        void OnPos(InputAction.CallbackContext context);
     }
 }

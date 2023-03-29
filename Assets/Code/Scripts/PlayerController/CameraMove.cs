@@ -117,26 +117,12 @@ namespace Code.Scripts.PlayerController
 
         private void MoveTouch()
         {
-            TouchControl touch = GetActiveTouch();
+            TouchControl touch = Input.GetActiveTouch();
             if(touch == null) return;
             Vector2 delta = -touch.delta.value * sensivityDelta*(camera.orthographicSize/limits.maxSize)/10;
             transform.position += new Vector3(delta.x, 0, delta.y);
         }
-
-
-        private TouchControl GetActiveTouch()
-        {
-            print("test");
-            foreach (var touch in touchscreen.touches)
-            {
-                if (touch.isInProgress)
-                {
-                    return touch;
-                }
-            }
-
-            return null;
-        }
+        
 #endif
     }
 
