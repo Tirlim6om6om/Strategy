@@ -31,6 +31,7 @@ namespace Code.Scripts.Interactable
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                print(hit.collider.name);
                 if (hit.collider.gameObject.TryGetComponent(out ClickableInteractable clicked))
                 {
                     clicked.Activate(true);

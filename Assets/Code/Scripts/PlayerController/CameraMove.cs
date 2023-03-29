@@ -20,7 +20,7 @@ namespace Code.Scripts.PlayerController
     {
         [SerializeField] private float sensivityDelta;
         [SerializeField] private bool leftButton;
-        [SerializeField] private Camera camera;
+        [SerializeField] private Camera cam;
         [SerializeField] private LimitsSizeCamera limits;
         [SerializeField] private float scrollForce;
         [SerializeField] private TextMeshProUGUI text;
@@ -57,7 +57,7 @@ namespace Code.Scripts.PlayerController
             while (leftButton)
             {
                 Vector2 delta = -Input.button.Delta.ReadValue<Vector2>()
-                    * sensivityDelta*(camera.orthographicSize/limits.maxSize)/10;
+                    * sensivityDelta*(cam.orthographicSize/limits.maxSize)/10;
                 transform.position += new Vector3(delta.x, 0, delta.y);
                 yield return new WaitForFixedUpdate();
             }
@@ -65,7 +65,7 @@ namespace Code.Scripts.PlayerController
 
         private void Scroll(InputAction.CallbackContext context)
         {
-            float size = camera.orthographicSize;
+            float size = cam.orthographicSize;
             
             if (context.ReadValue<float>() > 0)
             {
@@ -78,7 +78,7 @@ namespace Code.Scripts.PlayerController
             }
 
             size = Mathf.Clamp(size, limits.minSize, limits.maxSize);
-            camera.orthographicSize = size;
+            cam.orthographicSize = size;
         }
 
 
@@ -109,9 +109,9 @@ namespace Code.Scripts.PlayerController
             dist = dist / 100 * scrollForce;
             str += "DIST: " +dist + "\n";
             text.SetText(str);
-            float size = camera.orthographicSize - dist;
+            float size = cam.orthographicSize - dist;
             size = Mathf.Clamp(size, limits.minSize, limits.maxSize);
-            camera.orthographicSize = size;
+            cam.orthographicSize = size;
             _oldDist = Vector2.Distance(touch_0, touch_1)- _startDist;
         }
 
@@ -119,7 +119,7 @@ namespace Code.Scripts.PlayerController
         {
             TouchControl touch = Input.GetActiveTouch();
             if(touch == null) return;
-            Vector2 delta = -touch.delta.value * sensivityDelta*(camera.orthographicSize/limits.maxSize)/10;
+            Vector2 delta = -touch.delta.value * sensivityDelta*(cam.orthographicSize/limits.maxSize)/10;
             transform.position += new Vector3(delta.x, 0, delta.y);
         }
         
