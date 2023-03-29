@@ -8,7 +8,7 @@ namespace Code.Scripts.Interactable
         
         public virtual void Activate(bool active)
         {
-            menu.SetActive(active);
+            menu?.SetActive(active);
         }
     }
 }
