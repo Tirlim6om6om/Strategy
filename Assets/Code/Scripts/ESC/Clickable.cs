@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
-public struct ClickableData : IComponentData
+namespace Code.Scripts.ESC
 {
-    public char[] Name;
-}
-
-
-public class Clickable : MonoBehaviour
-{
-    [SerializeField]private char[] name;
-}
-
-public class ClickableBaker : Baker<Clickable>
-{
-    public override void Bake(Clickable authoring)
+    public struct ClickableData : IComponentData
     {
-        // AddComponent(new ClickableData {
-        //     //Name = authoring.name
-        // });
+        public int Type;
+    }
+
+
+    public class Clickable : MonoBehaviour
+    {
+        public int type;
+    }
+
+    public class ClickableBaker : Baker<Clickable>
+    {
+        public override void Bake(Clickable authoring)
+        {
+            AddComponent(new ClickableData {
+                Type = authoring.type,
+            });
+        }
     }
 }

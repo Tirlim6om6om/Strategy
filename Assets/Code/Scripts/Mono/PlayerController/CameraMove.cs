@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Code.Scripts.PlayerController
+namespace Code.Scripts.Mono.PlayerController
 {
     [System.Serializable]
     public class LimitsSizeCamera
