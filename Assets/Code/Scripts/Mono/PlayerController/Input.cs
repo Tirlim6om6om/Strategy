@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Code.Scripts.PlayerController
+namespace Code.Scripts.Mono.PlayerController
 {
     public class Input : MonoBehaviour
     {
@@ -27,7 +27,6 @@ namespace Code.Scripts.PlayerController
         
         public static TouchControl GetActiveTouch()
         {
-            print("test");
             foreach (var touch in Touchscreen.current.touches)
             {
                 if (touch.isInProgress)

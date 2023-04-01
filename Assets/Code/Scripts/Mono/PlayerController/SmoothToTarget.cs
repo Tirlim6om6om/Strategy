@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Scripts.PlayerController
+namespace Code.Scripts.Mono.PlayerController
 {
     public class SmoothToTarget : MonoBehaviour
     {

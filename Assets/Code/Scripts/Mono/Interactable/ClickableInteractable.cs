@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.Scripts.Interactable
+namespace Code.Scripts.Mono.Interactable
 {
     public class ClickableInteractable : MonoBehaviour
     {
@@ -8,7 +8,7 @@ namespace Code.Scripts.Interactable
         
         public virtual void Activate(bool active)
         {
-            menu.SetActive(active);
+            menu?.SetActive(active);
         }
     }
 }
