@@ -67,7 +67,7 @@ namespace Code.Scripts.Interactable
                 ClickableData data = _world.EntityManager.GetComponentData<ClickableData>(ent);
                 HouseInfo house = HouseInformation.instance.GetHouseIndex(data.Type);
                 CanvasInfo.instance.Set(pos, house);
-                InfoPanel.instance.Set(data.Hp, house);
+                InfoPanel.instance.Set(ent, house);
                 Debug.Log(ent.Index + "=>" + data.Type);
             }
             else
