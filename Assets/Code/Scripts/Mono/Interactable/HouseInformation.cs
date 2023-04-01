@@ -10,6 +10,7 @@ namespace Code.Scripts.Mono.Interactable
     {
         public int index;
         public string name;
+        public int maxHp;
     }
 
     [System.Serializable]

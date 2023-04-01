@@ -1,6 +1,7 @@
 using System;
 using Code.Scripts.ESC;
 using Code.Scripts.Mono.Interactable;
+using Code.Scripts.Mono.UI;
 using Unity.Entities;
 using Unity.Physics;
 using Unity.Transforms;
@@ -14,8 +15,7 @@ namespace Code.Scripts.Interactable
     public class RayController : MonoBehaviour
     {
         public static RayController instance;
-
-        [SerializeField] private CanvasInfo canvasInfo;
+        
         [SerializeField] private Camera cam;
         private ClickableInteractable lastClick;
         private World _world;
@@ -65,12 +65,15 @@ namespace Code.Scripts.Interactable
                 _click = ent;
                 Vector3 pos = _world.EntityManager.GetComponentData<LocalToWorld>(ent).Position;
                 ClickableData data = _world.EntityManager.GetComponentData<ClickableData>(ent);
-                canvasInfo.Set(pos, HouseInformation.instance.GetHouseIndex(data.Type));
+                HouseInfo house = HouseInformation.instance.GetHouseIndex(data.Type);
+                CanvasInfo.instance.Set(pos, house);
+                InfoPanel.instance.Set(data.Hp, house);
                 Debug.Log(ent.Index + "=>" + data.Type);
             }
             else
             {
-                canvasInfo.Set(false);
+                CanvasInfo.instance.Set(false);
+                InfoPanel.instance.Reset();
             }
         }
 

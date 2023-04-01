@@ -8,12 +8,14 @@ namespace Code.Scripts.ESC
     public struct ClickableData : IComponentData
     {
         public int Type;
+        public int Hp;
     }
 
 
     public class Clickable : MonoBehaviour
     {
         public int type;
+        public int hp;
     }
 
     public class ClickableBaker : Baker<Clickable>
@@ -22,6 +24,7 @@ namespace Code.Scripts.ESC
         {
             AddComponent(new ClickableData {
                 Type = authoring.type,
+                Hp = authoring.hp,
             });
         }
     }
